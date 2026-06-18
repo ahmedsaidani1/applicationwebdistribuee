@@ -196,24 +196,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Frontend (React)
-  library-frontend:
-    build:
-      context: ./library-frontend
-      dockerfile: Dockerfile
-    container_name: library-frontend
-    ports:
-      - "3000:80"
-    networks:
-      - library-network
-    environment:
-      - REACT_APP_API_GATEWAY_URL=http://localhost:8080
-      - REACT_APP_KEYCLOAK_URL=http://localhost:8180
-      - REACT_APP_KEYCLOAK_REALM=library-realm
-      - REACT_APP_KEYCLOAK_CLIENT_ID=library-frontend
-    depends_on:
-      - api-gateway
-
   # Prometheus
   prometheus:
     image: prom/prometheus:latest
