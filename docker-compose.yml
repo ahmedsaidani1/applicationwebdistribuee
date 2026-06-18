@@ -30,10 +30,9 @@ services:
     networks:
       - library-network
     environment:
-      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888/
     depends_on:
-      config-server:
-        condition: service_healthy
+      - config-server
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
       interval: 10s
@@ -112,15 +111,13 @@ services:
       - library-network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888/
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=guest
       - SPRING_RABBITMQ_PASSWORD=guest
     depends_on:
-      config-server:
-        condition: service_healthy
       eureka-server:
         condition: service_healthy
       rabbitmq:
@@ -176,7 +173,7 @@ services:
       - library-network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888/
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888/
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080
       - KEYCLOAK_REALM=library-realm
