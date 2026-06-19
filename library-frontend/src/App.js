@@ -37,7 +37,7 @@ function App() {
     
     kc.init({ 
       onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+      checkLoginIframe: false, // Disable iframe to avoid CSP issues
       pkceMethod: 'S256'
     })
     .then((auth) => {
@@ -48,6 +48,18 @@ function App() {
       if (auth) {
         console.log('✅ Authenticated as:', kc.tokenParsed?.preferred_username);
         console.log('Roles:', kc.tokenParsed?.realm_access?.roles);
+        
+        // Token refresh
+        setInterval(() => {
+          kc.updateToken(70).then((refreshed) => {
+            if (refreshed) {
+              console.log('🔄 Token refreshed');
+            }
+          }).catch(() => {
+            console.error('❌ Failed to refresh token');
+            setAuthenticated(false);
+          });
+        }, 60000); // Check every 60 seconds
       }
     })
     .catch((error) => {

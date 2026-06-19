@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: book-service
@@ -20,3 +23,13 @@ spring:
       ddl-auto: create
     show-sql: true
     defer-datasource-initialization: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    registerWithEureka: true
+    fetchRegistry: true
+  instance:
+    preferIpAddress: false
+    hostname: ${HOSTNAME:book-service}

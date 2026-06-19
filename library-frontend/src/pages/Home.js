@@ -118,23 +118,6 @@ export default function Home({ keycloak }) {
           </Grid>
         ))}
       </Grid>
-
-      <Paper sx={{ p: 3, mt: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          À propos du système
-        </Typography>
-        <Typography variant="body2" paragraph>
-          Cette application est basée sur une architecture microservices moderne :
-        </Typography>
-        <ul>
-          <li><strong>Book Service</strong> (Spring Boot + H2) : Gestion des livres</li>
-          <li><strong>Loan Service</strong> (Node.js + MongoDB) : Gestion des emprunts</li>
-          <li><strong>API Gateway</strong> : Point d'entrée unique</li>
-          <li><strong>Eureka</strong> : Service Discovery</li>
-          <li><strong>Keycloak</strong> : Authentification OAuth2</li>
-          <li><strong>RabbitMQ</strong> : Communication asynchrone</li>
-        </ul>
-      </Paper>
     </Container>
   );
 }

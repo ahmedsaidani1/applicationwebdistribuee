@@ -47,7 +47,7 @@ services:
     image: mongo:6.0
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - library-network
     environment:
@@ -61,7 +61,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
     container_name: keycloak
-    command: start-dev
+    command: start-dev --import-realm
     ports:
       - "8180:8080"
     networks:
@@ -69,8 +69,10 @@ services:
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_DB=dev-mem
+      - KC_DB=dev-file
+      - KC_DB_URL_PATH=/opt/keycloak/data/h2/keycloakdb
     volumes:
+      - keycloak-data:/opt/keycloak/data
       - ./keycloak/themes:/opt/keycloak/themes
       - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
 
@@ -200,5 +202,6 @@ networks:
 
 volumes:
   mongodb-data:
+  keycloak-data:
   prometheus-data:
   grafana-data:

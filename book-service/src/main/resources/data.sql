@@ -25,3 +25,7 @@ VALUES (4, '1984', 'George Orwell', '978-0-452-28423-4', 'Secker & Warburg', '19
 INSERT INTO books (id, title, author, isbn, publisher, publication_date, category, total_copies, available_copies, description, image_url, status) 
 VALUES (5, 'Design Patterns', 'Gang of Four', '978-0-201-63361-0', 'Addison-Wesley', '1994-10-21', 'Technologie', 2, 2, 
 'Patterns de conception orientée objet', 'https://via.placeholder.com/150', 'AVAILABLE');
+
+-- Reset sequences to avoid primary key conflicts
+ALTER TABLE books ALTER COLUMN id RESTART WITH 6;
+ALTER TABLE categories ALTER COLUMN id RESTART WITH 6;

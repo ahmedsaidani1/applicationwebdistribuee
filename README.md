@@ -1,113 +1,210 @@
-# Système de Gestion de Bibliothèque - Architecture Microservices
+# Library Management System - Microservices Architecture
 
-## 📚 Description du Projet
+Application web distribuée de gestion de bibliothèque basée sur une architecture microservices.
 
-Application de gestion de bibliothèque basée sur une architecture microservices avec Spring Boot, Node.js, et des technologies cloud-native.
-
-## 🏗️ Architecture
+## 📋 Architecture
 
 ### Microservices
-1. **book-service** (Spring Boot + H2)
-   - Gestion des livres (CRUD)
-   - Gestion des catégories
-   - Recherche de livres
-
-2. **loan-service** (Node.js + MongoDB)
-   - Gestion des emprunts
-   - Gestion des retours
-   - Historique des emprunts
+- **Book Service** (Spring Boot + H2) - Gestion des livres
+- **Loan Service** (Node.js + MongoDB) - Gestion des emprunts
+- **API Gateway** (Spring Cloud Gateway) - Point d'entrée unique
+- **Config Server** (Spring Cloud Config) - Configuration centralisée
+- **Eureka Server** - Service Discovery
 
 ### Infrastructure
-- **eureka-server** : Service Discovery
-- **config-server** : Configuration centralisée
-- **api-gateway** : Point d'entrée unique avec Spring Cloud Gateway
-- **keycloak** : Authentification et autorisation (SSO)
-- **rabbitmq** : Message broker pour communication asynchrone
+- **Keycloak** - Authentification OAuth2/OIDC
+- **RabbitMQ** - Communication asynchrone
+- **MongoDB** - Base de données pour Loan Service
+- **H2** - Base de données pour Book Service
+- **Prometheus + Grafana** - Monitoring
 
 ### Frontend
-- **library-frontend** : Application React avec interface moderne
+- **React** + Material-UI - Interface utilisateur
 
-## 🔐 Sécurité
+## 🚀 Démarrage Rapide
 
-- Keycloak pour l'authentification OAuth2/OpenID Connect
-- Gestion des rôles : ADMIN, LIBRARIAN, USER
-- Sécurisation de la Gateway
-- Thème Keycloak personnalisé
+### Prérequis
+- Docker Desktop
+- Git
 
-## 🔄 Communication
-
-### Synchrone (Feign Client)
-1. Gateway → Book Service (recherche de livres)
-2. Loan Service → Book Service (vérification disponibilité)
-3. Gateway → Loan Service (création emprunt)
-
-### Asynchrone (RabbitMQ)
-1. Nouvel emprunt → Notification email
-2. Retour de livre → Mise à jour statistiques
-3. Livre bientôt en retard → Rappel automatique
-
-## 🐳 Docker
-
-Tous les services sont conteneurisés avec Docker et orchestrés via Docker Compose.
-
-## 📊 Monitoring & Observabilité
-
-- Prometheus : Collecte de métriques
-- Grafana : Visualisation
-- Swagger : Documentation API centralisée
-
-## 🚀 Déploiement
-
-- Docker Compose pour développement local
-- Support Kubernetes pour production
-- CI/CD avec GitHub Actions
-
-## 📋 Prérequis
-
-- Java 17+
-- Node.js 18+
-- Docker & Docker Compose
-- Maven 3.8+
-- npm/yarn
-
-## 🏃 Démarrage Rapide
-
+### Lancement
 ```bash
-# Cloner le repository
-git clone <repo-url>
-cd library-microservices
-
-# Démarrer tous les services avec Docker
-docker-compose up -d
-
-# Accéder aux interfaces
-- Frontend: http://localhost:3000
-- Gateway: http://localhost:8080
-- Eureka: http://localhost:8761
-- Keycloak: http://localhost:8180
-- Swagger: http://localhost:8080/swagger-ui.html
+docker compose up -d
 ```
 
-## 📁 Structure du Projet
+### Accès aux Services
+- **Frontend**: http://localhost:3000
+- **Keycloak Admin**: http://localhost:8180/admin (admin/admin)
+- **Book Service**: http://localhost:8081
+- **Loan Service**: http://localhost:8082
+- **H2 Console**: http://localhost:8081/h2-console
+- **Eureka Dashboard**: http://localhost:8761
+- **Prometheus**: http://localhost:9090
+- **Grafana**: http://localhost:3001 (admin/admin)
+- **RabbitMQ Management**: http://localhost:15672 (guest/guest)
+
+## 👥 Utilisateurs de Test
+
+| Username | Password | Roles |
+|----------|----------|-------|
+| admin | admin123 | ADMIN, LIBRARIAN, USER |
+| librarian | librarian123 | LIBRARIAN, USER |
+| user | user123 | USER |
+
+## ✨ Fonctionnalités
+
+### Gestion des Livres (Book Service)
+- ✅ Créer, lire, modifier, supprimer des livres
+- ✅ Recherche de livres
+- ✅ Vérification de disponibilité
+- ✅ H2 Console pour inspection de la BD
+- ✅ Swagger Documentation: http://localhost:8081/swagger-ui.html
+
+### Gestion des Emprunts (Loan Service)
+- ✅ Emprunter un livre
+- ✅ Retourner un livre
+- ✅ Renouveler un emprunt
+- ✅ Historique des emprunts par utilisateur
+- ✅ Statistiques
+- ✅ Swagger Documentation: http://localhost:8082/v3/api-docs
+
+### Communication
+- **Synchrone**: Book Service ↔ Loan Service (vérification disponibilité)
+- **Asynchrone**: RabbitMQ (événements loan.created, loan.returned)
+
+### Sécurité
+- **Keycloak**: Authentification et autorisation
+- **Rôles**: ADMIN, LIBRARIAN, USER
+- **JWT Tokens**: Validation côté services
+
+## 🏗️ Architecture Technique
 
 ```
-library-microservices/
-├── book-service/           # Microservice Spring Boot
-├── loan-service/           # Microservice Node.js
-├── eureka-server/          # Service Discovery
-├── config-server/          # Configuration Server
-├── api-gateway/            # API Gateway
-├── library-frontend/       # Frontend React
-├── keycloak/              # Configuration Keycloak
-├── docker-compose.yml     # Orchestration Docker
-├── k8s/                   # Manifestes Kubernetes
-└── docs/                  # Documentation
+┌─────────────┐
+│   Browser   │
+└──────┬──────┘
+       │
+       ├─→ http://localhost:8180 (Keycloak Auth)
+       │
+       └─→ http://localhost:3000 (Frontend)
+              │
+              ├─→ http://localhost:8081 (Book Service)
+              │      │
+              │      ├─→ H2 Database
+              │      └─→ RabbitMQ Publisher
+              │
+              └─→ http://localhost:8082 (Loan Service)
+                     │
+                     ├─→ MongoDB
+                     └─→ RabbitMQ Consumer
 ```
 
-## 👥 Auteur
+## 📊 Service Discovery
 
-Projet réalisé dans le cadre du cours d'Architecture Microservices.
+Tous les services s'enregistrent automatiquement auprès d'Eureka:
+- BOOK-SERVICE
+- LOAN-SERVICE  
+- API-GATEWAY
 
-## 📅 Date de Livraison
+Voir le dashboard: http://localhost:8761
 
-Voir calendrier du service examen.
+## 🔧 Configuration H2 Console
+
+- **JDBC URL**: `jdbc:h2:mem:bookdb`
+- **Username**: `sa`
+- **Password**: _(laisser vide)_
+
+## 📦 Structure du Projet
+
+```
+.
+├── api-gateway/           # Spring Cloud Gateway
+├── book-service/          # Service de gestion des livres
+├── config-server/         # Configuration centralisée
+├── eureka-server/         # Service Discovery
+├── loan-service/          # Service de gestion des emprunts
+├── library-frontend/      # Application React
+├── keycloak/             # Configuration Keycloak
+├── monitoring/           # Prometheus + Grafana
+└── docker-compose.yml    # Orchestration Docker
+```
+
+## 🔄 Communication Asynchrone (RabbitMQ)
+
+### Événements
+- `loan.created` - Publié lors de la création d'un emprunt
+- `loan.returned` - Publié lors du retour d'un livre
+
+### Queues
+- `loan.queue` - Traitement des événements d'emprunt
+
+## 📝 Technologies Utilisées
+
+### Backend
+- Spring Boot 3.2.0
+- Spring Cloud (Gateway, Config, Netflix Eureka)
+- Node.js + Express
+- Spring Security OAuth2 Resource Server
+- Spring Data JPA
+- Mongoose (MongoDB ODM)
+
+### Frontend
+- React 18
+- Material-UI (MUI)
+- Keycloak.js
+- Axios
+
+### Infrastructure
+- Docker & Docker Compose
+- Keycloak 23.0
+- RabbitMQ 3
+- MongoDB 6.0
+- H2 Database
+- Prometheus
+- Grafana
+
+## 🎯 Points Clés du Projet
+
+1. **Architecture Microservices** - Services découplés et indépendants
+2. **Service Discovery** - Enregistrement automatique avec Eureka
+3. **Configuration Centralisée** - Config Server
+4. **Sécurité** - Authentification Keycloak avec gestion des rôles
+5. **Communication Synchrone** - REST APIs
+6. **Communication Asynchrone** - RabbitMQ pour événements
+7. **Monitoring** - Prometheus + Grafana
+8. **Containerisation** - Déploiement Docker complet
+9. **Documentation API** - Swagger/OpenAPI
+
+## 🐛 Dépannage
+
+### Services ne démarrent pas
+```bash
+docker compose down
+docker compose up -d
+```
+
+### RabbitMQ non connecté
+```bash
+docker compose restart rabbitmq loan-service
+```
+
+### H2 Console inaccessible
+- Vérifier que le Book Service est démarré
+- Attendre 30 secondes après le démarrage
+- URL: http://localhost:8081/h2-console
+
+## 📚 Documentation API
+
+- **Book Service**: http://localhost:8081/swagger-ui.html
+- **Loan Service**: http://localhost:8082/v3/api-docs
+
+## 🔐 Note sur la Sécurité
+
+L'API Gateway est configuré mais la validation JWT se fait directement au niveau de chaque microservice pour garantir la sécurité. Chaque service valide les tokens JWT émis par Keycloak.
+
+## 📄 Licence
+
+Projet académique - Application Web Distribuée
+
+---
+**Développé avec**: Spring Boot, Node.js, React, Keycloak, RabbitMQ, Docker

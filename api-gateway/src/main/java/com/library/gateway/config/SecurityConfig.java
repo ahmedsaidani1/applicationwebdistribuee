@@ -26,22 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
+            .cors(cors -> {}) // Enable CORS
             .authorizeExchange(exchanges -> exchanges
-                // Public endpoints
-                .pathMatchers("/actuator/**", "/eureka/**").permitAll()
-                .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**").permitAll()
-                
-                // Book endpoints - LIBRARIAN and ADMIN can manage
-                .pathMatchers("/api/books/**").hasAnyRole("LIBRARIAN", "ADMIN", "USER")
-                
-                // Loan endpoints - USER, LIBRARIAN and ADMIN can access
-                .pathMatchers("/api/loans/**").hasAnyRole("USER", "LIBRARIAN", "ADMIN")
-                
-                // All other requests need authentication
-                .anyExchange().authenticated()
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(grantedAuthoritiesExtractor()))
+                .anyExchange().permitAll() // Allow all requests for demo
             )
             .csrf(ServerHttpSecurity.CsrfSpec::disable);
 

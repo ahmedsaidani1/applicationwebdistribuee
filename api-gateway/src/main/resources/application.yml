@@ -3,3 +3,45 @@ spring:
     name: api-gateway
   config:
     import: optional:configserver:http://localhost:8888/
+  cloud:
+    gateway:
+      routes:
+        # Book Service Routes
+        - id: book-service
+          uri: lb://BOOK-SERVICE
+          predicates:
+            - Path=/api/books/**
+          filters:
+            - StripPrefix=1
+        
+        # Loan Service Routes
+        - id: loan-service
+          uri: lb://LOAN-SERVICE
+          predicates:
+            - Path=/api/loans/**
+          filters:
+            - StripPrefix=1
+      
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Use the public URL that browsers use
+          issuer-uri: http://localhost:8180/realms/library-realm
+          # But fetch JWKs from internal Docker network
+          jwk-set-uri: http://keycloak:8080/realms/library-realm/protocol/openid-connect/certs

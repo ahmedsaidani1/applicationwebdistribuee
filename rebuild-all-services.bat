@@ -1,0 +1,19 @@
+@echo off
+echo Stopping services...
+docker compose stop book-service api-gateway library-frontend
+
+echo Rebuilding Book Service...
+docker compose build book-service
+
+echo Rebuilding API Gateway...
+docker compose build api-gateway
+
+echo Rebuilding Frontend...
+docker compose build library-frontend
+
+echo Starting services...
+docker compose up -d book-service api-gateway library-frontend
+
+echo Done! Services are restarting...
+echo Wait 30-40 seconds then refresh your browser at http://localhost:3000
+pause
