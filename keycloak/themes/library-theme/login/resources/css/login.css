@@ -1,0 +1,169 @@
+/* Library Theme - Simple & Clean */
+
+/* Just override the background and button color */
+body.login-pf {
+    background: #f5f5f5 !important;
+}
+
+/* Clean white card */
+.login-pf #kc-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+/* Blue button matching frontend */
+#kc-form-buttons input[type="submit"],
+#kc-form-buttons .btn-primary {
+    background-color: #1976d2 !important;
+    border-color: #1976d2 !important;
+    color: white !important;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#kc-form-buttons input[type="submit"]:hover,
+#kc-form-buttons .btn-primary:hover {
+    background-color: #115293 !important;
+    border-color: #115293 !important;
+}
+
+/* Clean input fields */
+.login-pf .form-control {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.login-pf .form-control:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+    outline: none;
+}
+
+/* Links color */
+#kc-form-options a,
+#kc-info a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+#kc-form-options a:hover,
+#kc-info a:hover {
+    text-decoration: underline;
+}
+
+/* Header styling */
+#kc-header-wrapper {
+    padding: 20px 0;
+}
+
+#kc-header h1 {
+    color: #1976d2;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Alert messages */
+.alert-error {
+    background-color: #ffebee;
+    border-color: #ef5350;
+    color: #c62828;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+/* Library Theme - Simple & Clean */
+
+/* Just override the background and button color */
+body.login-pf {
+    background: #f5f5f5 !important;
+}
+
+/* Clean white card */
+.login-pf #kc-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+/* Blue button matching frontend */
+#kc-form-buttons input[type="submit"],
+#kc-form-buttons .btn-primary {
+    background-color: #1976d2 !important;
+    border-color: #1976d2 !important;
+    color: white !important;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#kc-form-buttons input[type="submit"]:hover,
+#kc-form-buttons .btn-primary:hover {
+    background-color: #115293 !important;
+    border-color: #115293 !important;
+}
+
+/* Clean input fields */
+.login-pf .form-control {
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.login-pf .form-control:focus {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+    outline: none;
+}
+
+/* Links color */
+#kc-form-options a,
+#kc-info a {
+    color: #1976d2;
+    text-decoration: none;
+}
+
+#kc-form-options a:hover,
+#kc-info a:hover {
+    text-decoration: underline;
+}
+
+/* Header styling */
+#kc-header-wrapper {
+    padding: 20px 0;
+}
+
+#kc-header h1 {
+    color: #1976d2;
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Alert messages */
+.alert-error {
+    background-color: #ffebee;
+    border-color: #ef5350;
+    color: #c62828;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+

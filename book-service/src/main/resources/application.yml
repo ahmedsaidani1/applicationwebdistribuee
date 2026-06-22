@@ -33,3 +33,13 @@ eureka:
   instance:
     preferIpAddress: false
     hostname: ${HOSTNAME:book-service}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true

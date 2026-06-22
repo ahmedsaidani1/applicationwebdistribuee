@@ -8,6 +8,13 @@
   "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
   "bruteForceProtected": true,
+  "loginTheme": "library-theme",
+  "accountTheme": "library-theme",
+  "adminTheme": "keycloak",
+  "emailTheme": "library-theme",
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "fr"],
+  "defaultLocale": "fr",
   
   "clients": [
     {

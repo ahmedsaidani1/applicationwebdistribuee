@@ -54,6 +54,9 @@ public class Book {
 
     private String imageUrl;
 
+    @Column(nullable = false)
+    private Integer totalLoans = 0; // Track how many times this book has been borrowed
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BookStatus status = BookStatus.AVAILABLE;

@@ -157,6 +157,31 @@ router.get('/statistics', async (req, res, next) => {
 
 /**
  * @swagger
+ * /loans/book/{bookId}/count:
+ *   get:
+ *     summary: Nombre d'emprunts pour un livre (Communication Sync avec Book Service)
+ *     tags: [Loans]
+ *     parameters:
+ *       - in: path
+ *         name: bookId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Nombre d'emprunts
+ */
+router.get('/book/:bookId/count', async (req, res, next) => {
+    try {
+        const count = await loanService.getLoanCountByBookId(parseInt(req.params.bookId));
+        res.json(count);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /loans:
  *   post:
  *     summary: Créer un nouvel emprunt

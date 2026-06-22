@@ -226,6 +226,11 @@ class LoanService {
             popularBooks
         };
     }
+
+    async getLoanCountByBookId(bookId) {
+        return await Loan.countDocuments({ bookId });
+    }
 }
+
 
 module.exports = new LoanService();

@@ -14,6 +14,14 @@ spring:
           filters:
             - StripPrefix=1
         
+        # Book Service Swagger
+        - id: book-service-swagger
+          uri: lb://BOOK-SERVICE
+          predicates:
+            - Path=/book-service/v3/api-docs
+          filters:
+            - RewritePath=/book-service/v3/api-docs, /v3/api-docs
+        
         # Loan Service Routes
         - id: loan-service
           uri: lb://LOAN-SERVICE
@@ -51,3 +59,30 @@ eureka:
   instance:
     preferIpAddress: false
     hostname: api-gateway
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Springdoc OpenAPI Configuration
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Book Service
+        url: /book-service/v3/api-docs
+      - name: Gateway API
+        url: /v3/api-docs
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+
+server:
+  port: 8080

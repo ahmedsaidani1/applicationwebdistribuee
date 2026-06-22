@@ -1,0 +1,60 @@
+/* Library Theme - Account Management */
+
+:root {
+    --primary-color: #1976d2;
+    --primary-dark: #115293;
+    --primary-light: #4791db;
+}
+
+/* Override primary colors */
+.pf-c-button.pf-m-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pf-c-button.pf-m-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* Brand logo area */
+.pf-c-brand {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.pf-c-brand::before {
+    content: "📚 ";
+}
+
+/* Navigation active state */
+.pf-c-nav__link.pf-m-current {
+    background-color: rgba(25, 118, 210, 0.1);
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Links */
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Page header */
+.pf-c-page__main-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+/* Form controls focus */
+.pf-c-form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+}
+
+/* Success alerts */
+.pf-c-alert.pf-m-success {
+    border-left: 4px solid #2e7d32;
+}
