@@ -2,7 +2,7 @@ spring:
   application:
     name: api-gateway
   config:
-    import: optional:configserver:http://localhost:8888/
+    import: optional:configserver:http://config-server:8888/
   cloud:
     gateway:
       routes:
@@ -41,7 +41,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # Use the public URL that browsers use
-          issuer-uri: http://localhost:8180/realms/library-realm
-          # But fetch JWKs from internal Docker network
+          issuer-uri: http://keycloak:8080/realms/library-realm
           jwk-set-uri: http://keycloak:8080/realms/library-realm/protocol/openid-connect/certs
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: false
+    hostname: api-gateway

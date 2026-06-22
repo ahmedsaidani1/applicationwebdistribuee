@@ -47,7 +47,7 @@ services:
     image: mongo:6.0
     container_name: mongodb
     ports:
-      - "27018:27017"
+      - "27017:27017"
     networks:
       - library-network
     environment:

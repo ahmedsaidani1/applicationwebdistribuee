@@ -30,6 +30,9 @@ function validateLoan(req, res, next) {
             message: detail.message
         }));
         
+        console.error('Loan validation failed:', errors);
+        console.error('Request body:', req.body);
+        
         return res.status(400).json({
             message: 'Validation failed',
             errors
