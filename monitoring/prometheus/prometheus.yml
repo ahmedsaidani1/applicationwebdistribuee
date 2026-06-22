@@ -2,37 +2,79 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    monitor: 'library-monitor'
+    monitor: 'library-monitoring'
 
+# Alertmanager configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Load rules once and periodically evaluate them
+rule_files: []
+
+# Scrape configurations
 scrape_configs:
+  # Prometheus itself
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
-
-  - job_name: 'book-service'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['book-service:8081']
         labels:
-          application: 'book-service'
+          service: 'prometheus'
 
-  - job_name: 'loan-service'
-    metrics_path: '/metrics'
-    static_configs:
-      - targets: ['loan-service:8082']
-        labels:
-          application: 'loan-service'
-
-  - job_name: 'api-gateway'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: ['api-gateway:8080']
-        labels:
-          application: 'api-gateway'
-
+  # Eureka Server
   - job_name: 'eureka-server'
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['eureka-server:8761']
         labels:
           application: 'eureka-server'
+          service: 'discovery'
+
+  # Config Server
+  - job_name: 'config-server'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['config-server:8888']
+        labels:
+          application: 'config-server'
+          service: 'config'
+
+  # API Gateway
+  - job_name: 'api-gateway'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['api-gateway:8080']
+        labels:
+          application: 'api-gateway'
+          service: 'gateway'
+
+  # Book Service
+  - job_name: 'book-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['book-service:8081']
+        labels:
+          application: 'book-service'
+          service: 'backend'
+
+  # Loan Service (Node.js with prom-client)
+  - job_name: 'loan-service'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['loan-service:8082']
+        labels:
+          application: 'loan-service'
+          service: 'backend'
+
+  # RabbitMQ
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['rabbitmq:15692']
+        labels:
+          service: 'messaging'
+
+  # MongoDB Exporter (optional - would need separate exporter)
+  # - job_name: 'mongodb'
+  #   static_configs:
+  #     - targets: ['mongodb-exporter:9216']

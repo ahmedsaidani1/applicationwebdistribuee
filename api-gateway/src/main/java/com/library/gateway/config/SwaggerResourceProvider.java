@@ -26,6 +26,12 @@ public class SwaggerResourceProvider {
         bookService.setUrl("/book-service/v3/api-docs");
         urls.add(bookService);
         
+        // Loan Service
+        SwaggerUrl loanService = new SwaggerUrl();
+        loanService.setName("Loan Service");
+        loanService.setUrl("/loan-service/v3/api-docs");
+        urls.add(loanService);
+        
         // Gateway itself (if needed)
         SwaggerUrl gateway = new SwaggerUrl();
         gateway.setName("API Gateway");

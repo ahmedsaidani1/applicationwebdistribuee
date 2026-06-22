@@ -1,28 +1,37 @@
 # 📚 Swagger API Documentation Centralisée
 
-## ✅ Status: CONFIGURED
+## ✅ Status: CONFIGURED & WORKING
 
 La documentation Swagger est centralisée au niveau de l'API Gateway et accessible depuis un point d'entrée unique.
+
+### ⚠️ Problème résolu
+**Erreur précédente**: "Failed to load API definition - Internal Server Error /api/books/v3/api-docs"
+**Solution**: Configuration des routes API Gateway pour servir correctement les documents OpenAPI v3 des microservices.
 
 ---
 
 ## 🌐 Accès à la Documentation
 
 ### Swagger UI (Interface Graphique)
-**URL**: http://localhost:8080/swagger-ui.html
+**URL principale**: http://localhost:8080/webjars/swagger-ui/index.html
 
-**Alternative**: http://localhost:8080/webjars/swagger-ui/index.html
+**📌 Important**: Pour sélectionner un service dans Swagger UI:
+1. Ouvrez le menu déroulant "Select a definition" en haut à droite
+2. Choisissez:
+   - **"Book Service"** pour les APIs de gestion des livres
+   - **"Loan Service"** pour les APIs de gestion des prêts
+   - **"Gateway API"** pour les APIs de l'API Gateway
 
 ### OpenAPI Specs (JSON)
 
-**API Gateway**:
-- http://localhost:8080/v3/api-docs
+**Via API Gateway** (✅ Recommandé):
+- Book Service: http://localhost:8080/book-service/v3/api-docs
+- Loan Service: http://localhost:8080/loan-service/v3/api-docs
+- Gateway API: http://localhost:8080/v3/api-docs
 
-**Book Service** (via Gateway):
-- http://localhost:8080/book-service/v3/api-docs
-
-**Microservices directs** (pour test):
+**Microservices directs** (pour test uniquement):
 - Book Service: http://localhost:8081/v3/api-docs
+- Book Service Swagger UI: http://localhost:8081/swagger-ui.html
 - Loan Service: http://localhost:8082/v3/api-docs
 
 ---

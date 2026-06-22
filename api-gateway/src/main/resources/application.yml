@@ -14,13 +14,13 @@ spring:
           filters:
             - StripPrefix=1
         
-        # Book Service Swagger
+        # Book Service Swagger Documentation
         - id: book-service-swagger
           uri: lb://BOOK-SERVICE
           predicates:
-            - Path=/book-service/v3/api-docs
+            - Path=/book-service/v3/**
           filters:
-            - RewritePath=/book-service/v3/api-docs, /v3/api-docs
+            - RewritePath=/book-service/(?<segment>.*), /$\{segment}
         
         # Loan Service Routes
         - id: loan-service
@@ -29,6 +29,14 @@ spring:
             - Path=/api/loans/**
           filters:
             - StripPrefix=1
+        
+        # Loan Service Swagger Documentation
+        - id: loan-service-swagger
+          uri: lb://LOAN-SERVICE
+          predicates:
+            - Path=/loan-service/v3/**
+          filters:
+            - RewritePath=/loan-service/(?<segment>.*), /$\{segment}
       
       globalcors:
         corsConfigurations:
@@ -78,6 +86,8 @@ springdoc:
     urls:
       - name: Book Service
         url: /book-service/v3/api-docs
+      - name: Loan Service
+        url: /loan-service/v3/api-docs
       - name: Gateway API
         url: /v3/api-docs
   api-docs:

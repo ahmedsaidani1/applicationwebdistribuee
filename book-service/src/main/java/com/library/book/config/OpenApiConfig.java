@@ -14,13 +14,15 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI bookServiceAPI() {
+        // Gateway server - add /api prefix for routing through gateway
+        Server gatewayServer = new Server();
+        gatewayServer.setUrl("http://localhost:8080/api");
+        gatewayServer.setDescription("Via API Gateway (Recommended)");
+
+        // Local server - direct access to service
         Server localServer = new Server();
         localServer.setUrl("http://localhost:8081");
-        localServer.setDescription("Local Server");
-
-        Server dockerServer = new Server();
-        dockerServer.setUrl("http://localhost:8080/api/books");
-        dockerServer.setDescription("Docker via Gateway");
+        localServer.setDescription("Direct Access (Development Only)");
 
         Contact contact = new Contact();
         contact.setName("Library Team");
@@ -29,11 +31,11 @@ public class OpenApiConfig {
         Info info = new Info()
                 .title("Book Service API")
                 .version("1.0.0")
-                .description("API de gestion des livres pour la bibliothèque")
+                .description("API de gestion des livres pour la bibliothèque. Utilisez le serveur 'Via API Gateway' pour tester via le gateway.")
                 .contact(contact);
 
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(localServer, dockerServer));
+                .servers(List.of(gatewayServer, localServer));
     }
 }
